@@ -37,4 +37,9 @@ class MainActivityAdapter(var context: Context ,var  dataList : ArrayList<String
     override fun getItemCount(): Int {
        return dataList.size
     }
+
+    fun filterList(temList : ArrayList<String>){
+        dataList=temList
+        notifyDataSetChanged()
+    }
 }
