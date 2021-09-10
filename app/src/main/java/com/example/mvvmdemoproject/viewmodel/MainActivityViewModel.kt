@@ -32,13 +32,15 @@ class MainActivityViewModel: ViewModel() {
     }*/
 
 
-    fun getAllUser():LiveData<Resource<List<ApiUserVO>>> = liveData(Dispatchers.IO) {
-        emit(Resource.loading(null))
-        try {
-            val data = MainActivityRepository().getUserDetails()
-            emit(Resource.success(data))
-        }catch (e :Exception){
-            emit(Resource.error(e.message.toString(),null))
+    fun getAllUser():LiveData<Resource<List<ApiUserVO>>> {
+      return liveData(Dispatchers.IO) {
+                emit(Resource.loading(null))
+                try {
+                    val data = MainActivityRepository().getUserDetails()
+                    emit(Resource.success(data))
+                }catch (e :Exception){
+                    emit(Resource.error(e.message.toString(),null))
+                }
         }
     }
 }
