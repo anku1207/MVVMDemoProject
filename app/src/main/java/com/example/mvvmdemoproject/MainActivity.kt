@@ -1,14 +1,11 @@
 package com.example.mvvmdemoproject
 
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmdemoproject.adapter.MainActivityAdapter
 import com.example.mvvmdemoproject.httprequest.Status
 import com.example.mvvmdemoproject.viewmodel.MainActivityViewModel
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import org.json.JSONObject
-import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -90,5 +83,25 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+
+        Log.w("status", "complete main activity")
+
+
+
+       // validaTextField (""){ a: Int, b: Int -> a + b }
     }
+
+    companion object {
+        /*fun validaTextField(value: String,name: (Int, Int) -> Unit){
+            name(500,4)
+        }*/
+        fun validaTextField(name : String , age : Int):Boolean{
+            return !(name == "" ||age==0)
+        }
+   }
+
+
+
+
 }
