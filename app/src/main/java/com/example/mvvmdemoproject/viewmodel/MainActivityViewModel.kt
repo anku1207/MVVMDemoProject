@@ -11,6 +11,7 @@ import com.example.mvvmdemoproject.httprequest.Resource
 import com.example.mvvmdemoproject.model.ApiUserVO
 import com.example.mvvmdemoproject.repository.MainActivityRepository
 import kotlinx.coroutines.Dispatchers
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,6 +42,18 @@ class MainActivityViewModel: ViewModel() {
                 }catch (e :Exception){
                     emit(Resource.error(e.message.toString(),null))
                 }
+        }
+    }
+
+    fun saveMultiImage(body :RequestBody):LiveData<Resource<String>> {
+        return liveData(Dispatchers.IO) {
+            emit(Resource.loading(null))
+            try {
+                val data = MainActivityRepository().saveMultiImage(body)
+                emit(Resource.success(data))
+            }catch (e :Exception){
+                emit(Resource.error(e.message.toString(),null))
+            }
         }
     }
 }
