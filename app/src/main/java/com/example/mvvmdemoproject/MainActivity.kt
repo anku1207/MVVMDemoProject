@@ -1,6 +1,7 @@
 package com.example.mvvmdemoproject
 
 import android.content.Context
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,11 +22,18 @@ import android.widget.Toast
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
-import okhttp3.MultipartBody
 
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+
+
+import android.os.FileUtils
+import androidx.annotation.NonNull
+import okhttp3.MultipartBody
+import java.net.URI.create
+
+import okhttp3.RequestBody
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,10 +83,10 @@ class MainActivity : AppCompatActivity() {
 
 
         //multi image upload
-        uploadMultiFile(applicationContext)
+       uploadMultiFile(applicationContext)
 
 
-        mainActivityViewModel.getAllUser().observe(this, Observer {
+        /*mainActivityViewModel.getAllUser().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     process.visibility=View.GONE
@@ -99,8 +107,7 @@ class MainActivity : AppCompatActivity() {
                    
                 }
             }
-        })
-
+        })*/
 
         Log.w("status", "complete main activity")
 
@@ -123,34 +130,41 @@ class MainActivity : AppCompatActivity() {
         filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
         filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
         filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
+
         val builder = MultipartBody.Builder()
         builder.setType(MultipartBody.FORM)
         builder.addFormDataPart("user_name", "Robert")
         builder.addFormDataPart("email", "mobile.apps.pro.vn@gmail.com")
-
         // Map is used to multipart the file using okhttp3.RequestBody
         // Multiple Images
-        for (i in 0 until filePaths.size) {
-            val file = File(filePaths[i])
-            builder.addFormDataPart(
-                "file[]",
-                file.getName(),
-                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-            )
-        }
-        val requestBody = builder.build()
+        try {
 
-
-        mainActivityViewModel.saveMultiImage(requestBody).observe(this, Observer {
-            Toast.makeText(context,""+it.status,Toast.LENGTH_SHORT).show()
-            when (it.status) {
-
+            for (i in 0 until filePaths.size) {
+                val file = File(filePaths[i])
+                builder.addFormDataPart(
+                    "file[]",
+                    file.getName(),
+                    file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                )
             }
-        })
+            val requestBody = builder.build()
+            mainActivityViewModel.saveMultiImage(requestBody).observe(this, Observer {
+                Toast.makeText(context,""+it.status,Toast.LENGTH_SHORT).show()
+                Log.w("Response",it.data.toString());
+                Log.w("Errro11111111 " , it.message.toString())
+                when (it.status) {
+
+                }
+            })
+
+        }catch (e :Exception){
+            Log.w("Errro " , e.message.toString())
+        }
+
+
+
 
     }
-
-
 
 
 }
