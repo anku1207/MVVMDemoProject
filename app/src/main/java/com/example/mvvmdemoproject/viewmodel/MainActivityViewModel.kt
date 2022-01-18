@@ -11,6 +11,8 @@ import com.example.mvvmdemoproject.httprequest.Resource
 import com.example.mvvmdemoproject.model.ApiUserVO
 import com.example.mvvmdemoproject.repository.MainActivityRepository
 import kotlinx.coroutines.Dispatchers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +35,7 @@ class MainActivityViewModel: ViewModel() {
         return data
     }*/
 
+<<<<<<< HEAD
     // with coroutines
     fun getAllUser():LiveData<Resource<List<ApiUserVO>>> = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
@@ -41,6 +44,30 @@ class MainActivityViewModel: ViewModel() {
             emit(Resource.success(data))
         }catch (e :Exception){
             emit(Resource.error(e.message.toString(),null))
+=======
+
+    fun getAllUser():LiveData<Resource<List<ApiUserVO>>> {
+      return liveData(Dispatchers.IO) {
+                emit(Resource.loading(null))
+                try {
+                    val data = MainActivityRepository().getUserDetails()
+                    emit(Resource.success(data))
+                }catch (e :Exception){
+                    emit(Resource.error(e.message.toString(),null))
+                }
+        }
+    }
+
+    fun saveMultiImage(body :RequestBody ):LiveData<Resource<String>> {
+        return liveData(Dispatchers.IO) {
+            emit(Resource.loading(null))
+            try {
+                val data = MainActivityRepository().saveMultiImage(body)
+                emit(Resource.success(data))
+            }catch (e :Exception){
+                emit(Resource.error(e.message.toString(),null))
+            }
+>>>>>>> eba625e1dbb714217ec689f93eb7f52f75b6a181
         }
     }
 }

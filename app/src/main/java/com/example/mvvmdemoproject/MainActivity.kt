@@ -1,14 +1,13 @@
 package com.example.mvvmdemoproject
 
-import android.opengl.Visibility
+import android.content.Context
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +15,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmdemoproject.adapter.MainActivityAdapter
 import com.example.mvvmdemoproject.httprequest.Status
 import com.example.mvvmdemoproject.viewmodel.MainActivityViewModel
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import org.json.JSONObject
-import java.util.*
 import kotlin.collections.ArrayList
+import okhttp3.ResponseBody
+
+import android.widget.Toast
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+
+
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+
+
+import android.os.FileUtils
+import androidx.annotation.NonNull
+import okhttp3.MultipartBody
+import java.net.URI.create
+
+import okhttp3.RequestBody
+import java.lang.Exception
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var rview : RecyclerView
@@ -68,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+<<<<<<< HEAD
         mainActivityViewModel.getAllUser().observe(this, Observer {
 
             // without coroutines
@@ -79,6 +94,13 @@ class MainActivity : AppCompatActivity() {
             mainActivityAdapter.notifyDataSetChanged()*/
 
             // with coroutines
+=======
+        //multi image upload
+       uploadMultiFile(applicationContext)
+
+
+        /*mainActivityViewModel.getAllUser().observe(this, Observer {
+>>>>>>> eba625e1dbb714217ec689f93eb7f52f75b6a181
             when (it.status) {
                 Status.SUCCESS -> {
                     process.visibility=View.GONE
@@ -99,6 +121,64 @@ class MainActivity : AppCompatActivity() {
                    
                 }
             }
-        })
+        })*/
+
+        Log.w("status", "complete main activity")
+
+
+       // validaTextField (""){ a: Int, b: Int -> a + b }
     }
+
+    companion object {
+        /*fun validaTextField(value: String,name: (Int, Int) -> Unit){
+            name(500,4)
+        }*/
+        fun validaTextField(name : String , age : Int):Boolean{
+            return !(name == "" ||age==0)
+        }
+   }
+
+
+    private fun uploadMultiFile(context: Context) {
+        val filePaths: ArrayList<String> = ArrayList()
+        filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
+        filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
+        filePaths.add("/storage/emulated/0/DCIM/MobiKwik20200108_0822108346669284420065020.jpg")
+
+        val builder = MultipartBody.Builder()
+        builder.setType(MultipartBody.FORM)
+        builder.addFormDataPart("user_name", "Robert")
+        builder.addFormDataPart("email", "mobile.apps.pro.vn@gmail.com")
+        // Map is used to multipart the file using okhttp3.RequestBody
+        // Multiple Images
+        try {
+
+            for (i in 0 until filePaths.size) {
+                val file = File(filePaths[i])
+                builder.addFormDataPart(
+                    "file[]",
+                    file.getName(),
+                    file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                )
+            }
+            val requestBody = builder.build()
+            mainActivityViewModel.saveMultiImage(requestBody).observe(this, Observer {
+                Toast.makeText(context,""+it.status,Toast.LENGTH_SHORT).show()
+                Log.w("Response",it.data.toString());
+                Log.w("Errro11111111 " , it.message.toString())
+                when (it.status) {
+
+                }
+            })
+
+        }catch (e :Exception){
+            Log.w("Errro " , e.message.toString())
+        }
+
+
+
+
+    }
+
+
 }
