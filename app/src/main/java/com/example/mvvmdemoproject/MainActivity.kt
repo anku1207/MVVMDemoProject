@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //multi image upload
-      //  uploadMultiFile(applicationContext)
+        uploadMultiFile(applicationContext)
 
 
 
