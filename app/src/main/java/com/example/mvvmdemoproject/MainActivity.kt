@@ -69,6 +69,16 @@ class MainActivity : AppCompatActivity() {
 
 
         mainActivityViewModel.getAllUser().observe(this, Observer {
+
+            // without coroutines
+           /* for(i in it!!){
+                val jsonObject =i
+                dataList.add(jsonObject.name)
+
+            }
+            mainActivityAdapter.notifyDataSetChanged()*/
+
+            // with coroutines
             when (it.status) {
                 Status.SUCCESS -> {
                     process.visibility=View.GONE
