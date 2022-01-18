@@ -37,34 +37,34 @@ import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var rview : RecyclerView
-    var dataList :ArrayList<String> = ArrayList();
-    lateinit var mainActivityAdapter :MainActivityAdapter
-    lateinit var searchview :SearchView
+    lateinit var rview: RecyclerView
+    var dataList: ArrayList<String> = ArrayList();
+    lateinit var mainActivityAdapter: MainActivityAdapter
+    lateinit var searchview: SearchView
     lateinit var mainActivityViewModel: MainActivityViewModel
-    lateinit var process : ProgressBar
+    lateinit var process: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        rview=findViewById(R.id.rview)
-        searchview=findViewById(R.id.searchview)
-        process=findViewById(R.id.process)
+        rview = findViewById(R.id.rview)
+        searchview = findViewById(R.id.searchview)
+        process = findViewById(R.id.process)
 
-        mainActivityViewModel=ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        mainActivityViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
 
-        mainActivityAdapter = MainActivityAdapter(this,dataList)
-        rview.layoutManager=LinearLayoutManager(this)
-        rview.adapter=mainActivityAdapter
+        mainActivityAdapter = MainActivityAdapter(this, dataList)
+        rview.layoutManager = LinearLayoutManager(this)
+        rview.adapter = mainActivityAdapter
 
-        searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if (p0!=null && !p0.equals("")){
+                if (p0 != null && !p0.equals("")) {
                     val temList = ArrayList<String>()
-                    for (i in dataList){
-                        if(i.lowercase().contains(p0.lowercase())){
+                    for (i in dataList) {
+                        if (i.lowercase().contains(p0.lowercase())) {
                             temList.add(i)
 
                         }
@@ -73,8 +73,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 return false
             }
+
             override fun onQueryTextChange(p0: String?): Boolean {
-                if (p0==null || p0.equals("")){
+                if (p0 == null || p0.equals("")) {
                     mainActivityAdapter.filterList(dataList)
                 }
                 return false
@@ -82,11 +83,14 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-<<<<<<< HEAD
-        mainActivityViewModel.getAllUser().observe(this, Observer {
+        //multi image upload
+      //  uploadMultiFile(applicationContext)
 
+
+
+        mainActivityViewModel.getAllUser().observe(this, Observer {
             // without coroutines
-           /* for(i in it!!){
+            /* for(i in it!!){
                 val jsonObject =i
                 dataList.add(jsonObject.name)
 
@@ -94,49 +98,44 @@ class MainActivity : AppCompatActivity() {
             mainActivityAdapter.notifyDataSetChanged()*/
 
             // with coroutines
-=======
-        //multi image upload
-       uploadMultiFile(applicationContext)
 
-
-        /*mainActivityViewModel.getAllUser().observe(this, Observer {
->>>>>>> eba625e1dbb714217ec689f93eb7f52f75b6a181
             when (it.status) {
                 Status.SUCCESS -> {
-                    process.visibility=View.GONE
+                    process.visibility = View.GONE
 
-                    val JsonArray =it.data
-                    for(i in JsonArray!!){
-                        val jsonObject =i
+                    val JsonArray = it.data
+                    for (i in JsonArray!!) {
+                        val jsonObject = i
                         dataList.add(jsonObject.name)
 
                     }
                     mainActivityAdapter.notifyDataSetChanged()
                 }
                 Status.LOADING -> {
-                    process.visibility=View.VISIBLE
+                    process.visibility = View.VISIBLE
                 }
                 Status.ERROR -> {
-                    process.visibility=View.GONE
-                   
+                    process.visibility = View.GONE
+
                 }
             }
-        })*/
+        })
 
         Log.w("status", "complete main activity")
 
 
-       // validaTextField (""){ a: Int, b: Int -> a + b }
+        // validaTextField (""){ a: Int, b: Int -> a + b }
     }
+
 
     companion object {
         /*fun validaTextField(value: String,name: (Int, Int) -> Unit){
             name(500,4)
         }*/
-        fun validaTextField(name : String , age : Int):Boolean{
-            return !(name == "" ||age==0)
+        fun validaTextField(name: String, age: Int): Boolean {
+            return !(name == "" || age == 0)
         }
-   }
+    }
 
 
     private fun uploadMultiFile(context: Context) {
@@ -163,19 +162,17 @@ class MainActivity : AppCompatActivity() {
             }
             val requestBody = builder.build()
             mainActivityViewModel.saveMultiImage(requestBody).observe(this, Observer {
-                Toast.makeText(context,""+it.status,Toast.LENGTH_SHORT).show()
-                Log.w("Response",it.data.toString());
-                Log.w("Errro11111111 " , it.message.toString())
+                Toast.makeText(context, "" + it.status, Toast.LENGTH_SHORT).show()
+                Log.w("Response", it.data.toString());
+                Log.w("Errro11111111 ", it.message.toString())
                 when (it.status) {
 
                 }
             })
 
-        }catch (e :Exception){
-            Log.w("Errro " , e.message.toString())
+        } catch (e: Exception) {
+            Log.w("Errro ", e.message.toString())
         }
-
-
 
 
     }

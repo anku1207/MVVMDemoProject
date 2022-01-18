@@ -13,8 +13,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 object HttpRetrofit {
    private var apiRequset :APIRequset? =null
    private var retrofit: Retrofit?=null
-   //val base_URL="https://5e510330f2c0d300147c034c.mockapi.io/"
-  val base_URL= "http://144.48.78.35/Json_API/EzeeOffice/"
+   val base_URL="https://5e510330f2c0d300147c034c.mockapi.io/"
+  //val base_URL= "http://144.48.78.35/Json_API/EzeeOffice/"
 
 
 
