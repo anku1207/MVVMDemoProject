@@ -139,6 +139,12 @@ class MainActivity : AppCompatActivity() {
         // Multiple Images
         try {
 
+
+
+            /*
+            {"file":{"name":["Screenshot from 2021-10-25 12-08-31.png","Screenshot from 2021-09-09
+16-49-22.png"],"type":["image\/png","image\/png"],"tmp_name":["\/tmp\/phpDqo3Sv","\/tmp\/phpkgHhft"],"error":[0,0],"size":[343426,75877]}}
+ */
             for (i in 0 until filePaths.size) {
                 val file = File(filePaths[i])
                 builder.addFormDataPart(
