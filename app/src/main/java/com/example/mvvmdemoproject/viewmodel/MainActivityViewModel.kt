@@ -18,7 +18,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivityViewModel: ViewModel() {
-    /*fun getAllUser():LiveData<List<ApiUserVO>>{
+
+    // without coroutines
+   /* fun getAllUser():LiveData<List<ApiUserVO>>{
         val data = MutableLiveData<List<ApiUserVO>>()
         val fetchData=HttpRetrofit.getRetrofit().getUsers()
         fetchData.enqueue(object : Callback<List<ApiUserVO>>{
@@ -34,6 +36,7 @@ class MainActivityViewModel: ViewModel() {
     }*/
 
 
+    // with coroutines
     fun getAllUser():LiveData<Resource<List<ApiUserVO>>> {
         return liveData(Dispatchers.IO) {
             emit(Resource.loading(null))
